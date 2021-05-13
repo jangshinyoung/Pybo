@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+    <form method="post" class="post-form my-3">
+        {% for field,errors in form.errors.items()%}
+        <div class="alert aler-danger" role="alert">
+            <strong>{{ form[field].label }}</strong> : {{ ','.join(errors) }}
+        </div>
+        {% endfor %}
+        {{ form.csrf_token }}
+        {{ form.subject.label }}
+        {{ form.subject(class="form-control") }}
+        {{ form.content.label }}
+        {{ form.content(class="form-control") }}
+
+        <button type="submit" class="btn btn-primary">저장하기</button>
+    </form>
+</div>
+{% endblock %}

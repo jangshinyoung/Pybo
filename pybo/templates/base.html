@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <mate name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></mate>
+    <link rel="stylesheet" href="{{url_for('static',filename='bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+    <title>Hello, pybo!!</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
+    <a class="navbar-brand" href="{{url_for('main.index')}}">Pybo</a>
+<!--    상단 왼쪽 파이보 이름 생성-->
+    <button class="navbar-toggler ml_auto" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+
+        {% if g.user %}
+        <ul class="navbar-nav">
+            <li class= ass="navbar-nav">
+                <a class="nav-link" href="{{url_for('auth.logout')}}">{{g.user.username}}로그아웃</a>
+            </li>
+            <li class="navbar-nav">
+                <a class="nav-link" href="{{url_for('naver.Naverbook')}}">네이버책</a>
+            </li>
+            <li class="navbar-nav">
+                <a class="nav-link" href="{{url_for('movie.MovieRank')}}">영화순위</a>
+            </li>
+            <li class="navbar-nav">
+                <a class="nav-link" href="{{url_for('movie.MovieInfo')}}">영화리뷰</a>
+            </li>
+        </ul>
+        {% else %}
+        <ul class="navbar-nav">
+            <li class= ass="navbar-nav">
+                <a class="nav-link" href="{{url_for('auth.signup')}}">계정생성</a>
+            </li>
+            <li class="navbar-nav">
+                <a class="nav-link" href="{{url_for('auth.login')}}">로그인</a>
+            </li>
+            <li class="navbar-nav">
+                <a class="nav-link" href="{{url_for('naver.Naverbook')}}">네이버책</a>
+            </li>
+            <li class="navbar-nav">
+                <a class="nav-link" href="{{url_for('movie.MovieRank')}}">영화순위</a>
+            </li>
+            <li class="navbar-nav">
+                <a class="nav-link" href="{{url_for('movie.MovieInfo')}}">영화정보</a>
+            </li>
+        </ul>
+        {% endif %}
+    </div>
+</nav>
+
+{% block content %}
+{% endblock %}
+
+<script src="{{url_for('static',filename='jquery-3.6.0.min.js')}}"></script>
+<script src="{{url_for('static',filename='bootstrap.min.js')}}"></script>
+</body>
+</html>
