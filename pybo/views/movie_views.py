@@ -5,9 +5,6 @@ from ..forms import MovieInfoForm
 
 bp = Blueprint('movie',__name__,url_prefix='/movie')
 
-
-
-
 @bp.route('/rank/')
 def MovieRank():
     rankdata = Mrank()

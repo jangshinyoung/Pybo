@@ -29,7 +29,10 @@
                 <a class="nav-link" href="{{url_for('movie.MovieRank')}}">영화순위</a>
             </li>
             <li class="navbar-nav">
-                <a class="nav-link" href="{{url_for('movie.MovieInfo')}}">영화리뷰</a>
+                <a class="nav-link" href="{{url_for('movie.MovieInfo')}}">영화정보</a>
+            </li>
+            <li class="navbar-nav">
+                <a class="nav-link" href="{{url_for('chat.Bot')}}">챗봇</a>
             </li>
         </ul>
         {% else %}
@@ -49,10 +52,22 @@
             <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('movie.MovieInfo')}}">영화정보</a>
             </li>
+              <li class="navbar-nav">
+                <a class="nav-link" href="{{url_for('chat.Bot')}}">챗봇</a>
+            </li>
         </ul>
         {% endif %}
     </div>
 </nav>
+
+
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+  intent="WELCOME"
+  chat-title="shop"
+  agent-id="51bce6c0-8059-4afd-8553-6cad5b5794d3"
+  language-code="ko"
+></df-messenger>
 
 {% block content %}
 {% endblock %}

@@ -28,3 +28,6 @@ class NaverbookForm(FlaskForm):
 
 class MovieInfoForm(FlaskForm):
     search = StringField('검색창', validators=[DataRequired()])
+
+class WeatherInfoForm(FlaskForm):
+    search = StringField('검색창', validators=[DataRequired()])

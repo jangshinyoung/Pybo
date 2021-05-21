@@ -1,8 +1,12 @@
-from flask import Blueprint,render_template,url_for
+from flask import Blueprint, render_template, url_for, request, jsonify
 from pybo.models import Question, Answer
 from datetime import datetime
 from pybo import db
 from werkzeug.utils import redirect
+from pybo.movieapi import Mrank
+from pybo.naverapi import navermovie,navershop
+from pybo.weatherapi import get_wdata
+
 from pybo.models import Userinfo
 
 bp = Blueprint('main',__name__,url_prefix='/')  # 해당 블루프린트로 접근할 url.
@@ -147,3 +151,117 @@ def hellow_pybo():
 @bp.route('/')
 def index():
     return redirect(url_for('question._list'))   # 이중 url 바로 연결.
+
+@bp.route('/webhook',methods=['GET','POST'])
+def webhook():
+    req = request.get_json()
+    # print(req)
+    if req['queryResult']['intent']['displayName'] == 'movie ranking':
+        rankdata = Mrank()
+        result =''
+        count = 1
+        for temp in rankdata:
+            result = result + str(count) + '위 : ' +temp['title']      # 영화 순위 가져오기.
+            if count ==3:
+                break
+            count +=1
+    elif req['queryResult']['intent']['displayName'] == 'movie info - custom':
+
+        movieresult = navermovie(req['queryResult']['queryText'])
+
+        moviedata = movieresult['items'][0]
+
+
+        return movie_info(moviedata['image'],moviedata['title'].replace('<b>', '').replace('</b>',''),moviedata['link'],
+                          '감독:'+moviedata['director']+'출연자:'+moviedata['actor'])
+    elif req['queryResult']['intent']['displayName'] == 'weather - city':
+        wdata = get_wdata(req['queryResult']['queryText'])
+        print(wdata)
+        return weather_info(wdata)
+    elif req['queryResult']['intent']['displayName'] == 'Nshop - custom - custom':
+        shopresult = navershop(req['queryResult']['queryText'])
+        return shop_info(shopresult['items'])
+
+
+def movie_info(imgurl, title,link,subtitle):     # 다이얼로그 메신저에 이미지 노출
+    response_json = jsonify(
+        fulfillment_text='영화정보',
+        fulfillment_messages=[
+            {
+                "payload": {
+                    "richContent": [[
+                        {
+                            "type": "image",
+                            "rawUrl": imgurl
+                        },
+                        {
+                            "type": "info",
+                            "title": title,
+                            "actionLink": link,
+                            "subtitle": subtitle
+                        }
+                    ]]
+                }
+            }
+        ]
+    )
+
+    print(response_json)
+    return response_json   # 영화
+def weather_info(wdata):
+    strdata = ''
+
+    if '지역' in wdata:
+        strdata += wdata['지역']+'의 '
+    if '현재일기' in wdata and len(wdata['현재일기'])>1:
+        strdata += '현재일기는' + wdata['현재일기']
+    if '현재기온' in wdata and len(wdata['현재기온'])>1:
+        strdata += '현재기온은' + wdata['현재기온']
+    if '일강수' in wdata and len(wdata['일강수'])>1:
+        strdata += '일강수는' + wdata['일강수']
+
+    strdata += '입니다.'
+
+
+    response_json = jsonify(
+        fulfillment_text=strdata
+    )
+
+    return response_json
+def shop_info(items):
+
+    plist = []
+    for temp in items:
+        imgurl = temp['image']
+        title = temp['title']
+        link = temp['link']
+        subtitle = '최저가 :' + temp['lprice']
+        listdata = [
+            {
+                "type": "image",
+                "rawUrl": imgurl
+            },
+            {
+                "type": "info",
+                "title": title,
+                "actionLink": link,
+                "subtitle": subtitle
+            }
+        ]
+
+        plist.append(listdata)
+
+    response_json = jsonify(
+        fulfillment_text=title,
+        fulfillment_messages=[
+            {
+                "payload": {
+                    "richContent": plist
+                }
+            }
+        ]
+    )
+
+    return response_json
+
+
