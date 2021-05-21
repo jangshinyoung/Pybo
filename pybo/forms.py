@@ -31,3 +31,6 @@ class MovieInfoForm(FlaskForm):
 
 class WeatherInfoForm(FlaskForm):
     search = StringField('검색창', validators=[DataRequired()])
+
+class HelpInfoForm(FlaskForm):
+    search = StringField('검색', validators=[DataRequired()])

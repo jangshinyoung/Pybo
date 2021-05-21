@@ -34,6 +34,9 @@
             <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('chat.Bot')}}">챗봇</a>
             </li>
+            <li class="navbar-nav">
+                <a class="nav-link" href="{{url_for('chat.Help')}}">Help</a>
+            </li>
         </ul>
         {% else %}
         <ul class="navbar-nav">
@@ -54,6 +57,9 @@
             </li>
               <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('chat.Bot')}}">챗봇</a>
+            </li>
+            <li class="navbar-nav">
+                <a class="nav-link" href="{{url_for('chat.Help')}}">Help</a>
             </li>
         </ul>
         {% endif %}

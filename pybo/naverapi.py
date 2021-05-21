@@ -90,7 +90,7 @@ def navershop(product):
     print(jsontemp)
     return jsontemp
 
-navershop('마샬')
+# navershop('마샬')
 
 # jsonstring = '''
 # {"date":"2021-05-11" , "data":[{"price":300 , "total":20},{"price":100 , "total":120}
