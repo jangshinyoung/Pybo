@@ -22,7 +22,7 @@ def chat(text, session_id='me'):
         raise
 
     result = json.loads(MessageToJson(response))
-    print(response)
+    # print(response)
 
     return response.query_result.fulfillment_text
 

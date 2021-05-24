@@ -1,6 +1,6 @@
 import urllib.request
 import json
-
+# 네이버 책
 def naverbook(bookname):
 
     client_id = "01aH03vjnHWIg5SacVqp"
@@ -22,8 +22,7 @@ def naverbook(bookname):
         print("Error Code:" + rescode)
 
     return jsontemp
-
-
+# 네이버 영화
 def navermovie(moviename):
 
     client_id = "01aH03vjnHWIg5SacVqp"
@@ -45,7 +44,7 @@ def navermovie(moviename):
         print("Error Code:" + rescode)
 
     return jsontemp
-
+# 네이버 영화정보
 def Movieinfo(movieinfo):
 
     client_id = "01aH03vjnHWIg5SacVqp"
@@ -67,7 +66,7 @@ def Movieinfo(movieinfo):
         print("Error Code:" + rescode)
     print(jsontemp)
     return jsontemp
-
+# 네이버 쇼핑
 def navershop(product):
 
     client_id = "01aH03vjnHWIg5SacVqp"

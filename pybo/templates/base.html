@@ -20,20 +20,29 @@
         {% if g.user %}
         <ul class="navbar-nav">
             <li class= ass="navbar-nav">
-                <a class="nav-link" href="{{url_for('auth.logout')}}">{{g.user.username}}로그아웃</a>
+                <a class="nav-link" href="{{url_for('auth.logout')}}">로그아웃</a>
             </li>
+
             <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('naver.Naverbook')}}">네이버책</a>
             </li>
+
             <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('movie.MovieRank')}}">영화순위</a>
             </li>
+
             <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('movie.MovieInfo')}}">영화정보</a>
             </li>
+
+            <li class="navbar-nav">
+                <a class="nav-link" href="{{url_for('main.mrtrot')}}">미스터 트롯</a>
+            </li>
+
             <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('chat.Bot')}}">챗봇</a>
             </li>
+
             <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('chat.Help')}}">Help</a>
             </li>
@@ -43,21 +52,31 @@
             <li class= ass="navbar-nav">
                 <a class="nav-link" href="{{url_for('auth.signup')}}">계정생성</a>
             </li>
+
             <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('auth.login')}}">로그인</a>
             </li>
+
             <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('naver.Naverbook')}}">네이버책</a>
             </li>
+
             <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('movie.MovieRank')}}">영화순위</a>
             </li>
+
             <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('movie.MovieInfo')}}">영화정보</a>
             </li>
-              <li class="navbar-nav">
+
+            <li class="navbar-nav">
+                <a class="nav-link" href="{{url_for('main.mrtrot')}}">미스터 트롯</a>
+            </li>
+
+            <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('chat.Bot')}}">챗봇</a>
             </li>
+
             <li class="navbar-nav">
                 <a class="nav-link" href="{{url_for('chat.Help')}}">Help</a>
             </li>
@@ -66,14 +85,14 @@
     </div>
 </nav>
 
-
 <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 <df-messenger
   intent="WELCOME"
-  chat-title="shop"
-  agent-id="51bce6c0-8059-4afd-8553-6cad5b5794d3"
+  chat-title="MISTER-TROT"
+  agent-id="5caf9c25-f2c3-409b-8416-650baf501bee"
   language-code="ko"
 ></df-messenger>
+
 
 {% block content %}
 {% endblock %}

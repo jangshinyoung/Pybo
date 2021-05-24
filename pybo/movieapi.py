@@ -46,7 +46,6 @@ def Mrank():
     #영화 이미지 정보
     imgresult = soup.find_all('div','thumb')
     imgurl = []
-
     for j in imgresult:
         url = j.find('img')
         imgurl.append(url['src'])

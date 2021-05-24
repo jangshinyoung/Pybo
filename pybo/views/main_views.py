@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, url_for, request, jsonify
-from pybo.models import Question, Answer
+from pybo.models import Question, Answer, Vote
 from datetime import datetime
 from pybo import db
 from werkzeug.utils import redirect
@@ -15,12 +15,14 @@ bp = Blueprint('main',__name__,url_prefix='/')  # 해당 블루프린트로 접�
 
 @bp.route('/test')
 def test():
-    for i in range(100):
-        q = Question(subject='테스트 데이터[%03d]'%i,content='내용무',create_date=datetime.now())
-        db.session.add(q)
-    db.session.commit()
-    return redirect(url_for('main.index'))
+    mrnamelist = ['이찬원', '임영웅', '영탁', '김호중', '정동원', '김희재', '장민호']
 
+    for temp in mrnamelist:
+        vote = Vote(mrname = temp, votecount = 0)
+        db.session.add(vote)
+    db.session.commit()
+
+    return redirect(url_for('main.index'))
 
 @bp.route('/hello')
 def hellow_pybo():
@@ -147,17 +149,17 @@ def hellow_pybo():
 
     return 'Hello, Pybo!'
 
-
 @bp.route('/')
 def index():
     return redirect(url_for('question._list'))   # 이중 url 바로 연결.
 
+# 네이버 영화, 날씨, 네이버 쇼핑
 @bp.route('/webhook',methods=['GET','POST'])
 def webhook():
     req = request.get_json()
     # print(req)
     if req['queryResult']['intent']['displayName'] == 'movie ranking':
-        rankdata = Mrank()
+        rankdata = Mrank()    #movieapi
         result =''
         count = 1
         for temp in rankdata:
@@ -182,8 +184,48 @@ def webhook():
         shopresult = navershop(req['queryResult']['queryText'])
         return shop_info(shopresult['items'])
 
+# 미스터 트롯 투표 dialogflow
+@bp.route('/mrvote',methods=['GET','POST'])
+def mrvote():
+    req = request.get_json()
 
-def movie_info(imgurl, title,link,subtitle):     # 다이얼로그 메신저에 이미지 노출
+    if req['queryResult']['intent']['displayName'] == 'trot-member-choice':  # 인텐트 분류:
+
+        votename = req['queryResult']['queryText']
+
+        voteresult = Vote.query.get_or_404(votename)
+        print(voteresult.votecount)
+        voteresult.votecount += 1
+        db.session.commit()
+
+        strdata = votename + "님에게 투표하셨습니다. 이용해주셔서 감사합니다."
+        response_json = jsonify(
+            fulfillment_text=strdata
+        )
+        print('===========투표시작===========')
+
+    elif req['queryResult']['intent']['displayName'] == 'trot-rank':  # 미스터 트롯 순위
+
+        question_list = Vote.query.order_by(Vote.votecount.desc())
+
+        strdata = ''
+        count = 0
+        for temp in question_list:
+            count += 1
+            strdata = strdata + str(count) + '위 : ' + temp.mrname + "   |   "
+
+        response_json = jsonify(
+            fulfillment_text=strdata
+        )
+
+    return response_json
+
+@bp.route('/mrtrot')
+def mrtrot():
+    return render_template('chat/mrtrot.html')
+
+# 다이얼로그 메신저에 이미지 노출
+def movie_info(imgurl, title,link,subtitle):
     response_json = jsonify(
         fulfillment_text='영화정보',
         fulfillment_messages=[
@@ -208,6 +250,8 @@ def movie_info(imgurl, title,link,subtitle):     # 다이얼로그 메신저에 
 
     print(response_json)
     return response_json   # 영화
+
+# 날씨 정보
 def weather_info(wdata):
     strdata = ''
 
@@ -228,6 +272,8 @@ def weather_info(wdata):
     )
 
     return response_json
+
+# 네이버 샵 정보
 def shop_info(items):
 
     plist = []
