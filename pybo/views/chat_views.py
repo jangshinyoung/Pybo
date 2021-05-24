@@ -24,5 +24,9 @@ def Help():
             return redirect(url_for('movie.MovieRank'))
         elif result =='구글':
             return redirect('http://www.google.com')
+        elif result =='인스타그램':
+            return redirect('http://www.instargram.com')
+        elif result == '유튜브':
+            return redirect('http://www.youtube.com')
 
     return render_template('chat/help.html',form=form)
