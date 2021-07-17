@@ -53,8 +53,8 @@ def login():
 
     return render_template('auth/login.html',form=form)
 
-
-@bp.before_app_request    # 유저의 저장 정보.
+# 유저의 저장 정보.
+@bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
     if user_id is None:

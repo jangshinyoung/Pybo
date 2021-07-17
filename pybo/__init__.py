@@ -19,7 +19,7 @@ migrate.init_app(app,db)
 
 from. import models
 
-from .views import main_views,question_views,answer_views,auth_views,naverbook_views,movie_views,chat_views
+from .views import main_views,question_views,answer_views,auth_views,naverbook_views,movie_views,chat_views,kakao_views
 app.register_blueprint(main_views.bp)
 app.register_blueprint(question_views.bp)
 app.register_blueprint(answer_views.bp)
@@ -27,6 +27,8 @@ app.register_blueprint(auth_views.bp)
 app.register_blueprint(naverbook_views.bp)
 app.register_blueprint(movie_views.bp)
 app.register_blueprint(chat_views.bp)
+app.register_blueprint(kakao_views.bp)
+
 
 from .filter import format_datetime
 app.jinja_env.filters['datetime'] = format_datetime

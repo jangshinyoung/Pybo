@@ -34,3 +34,6 @@ class WeatherInfoForm(FlaskForm):
 
 class HelpInfoForm(FlaskForm):
     search = StringField('검색', validators=[DataRequired()])
+
+class KakaoweatherForm(FlaskForm):
+    search = StringField('검색', validators=[DataRequired()])

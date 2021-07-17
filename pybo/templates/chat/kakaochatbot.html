@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">검색할 영화 제목을 입력해주세요.</h5>
+    <form method="post" class="post-form my-3">
+
+        {% for field,errors in form.errors.items()%}
+        <div class="alert aler-danger" role="alert">
+            <strong>{{ form[field].label }}</strong> : {{ ','.join(errors) }}
+        </div>
+        {% endfor %}
+
+        {{ form.csrf_token }}
+        {{ form.search.label }}
+        {{ form.search(class="form-control") }}
+
+        <button type="submit" class="my-3 btn btn-primary">검색하기</button>
+    </form>
+</div>
+
+{% endblock %}
